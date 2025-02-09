@@ -1,7 +1,8 @@
-"use client"; // ✅ クライアントコンポーネント
+"use client";
+import Image from "next/image";
 
 import { useState, useEffect, Suspense } from "react";
-import Backbtn from "../components/backbtn"; // ✅ 共通の戻るボタンを利用
+import Backbtn from "../components/backbtn";
 
 export default function CatPage() {
     return (
@@ -12,7 +13,7 @@ export default function CatPage() {
 }
 
 function Cat() {
-    const [catImage, setCatImage] = useState("about:blank"); // ✅ 初期値を設定
+    const [catImage, setCatImage] = useState("about:blank");
     const [error, setError] = useState("");
 
     const fetchCatImage = async () => {
@@ -22,8 +23,12 @@ function Cat() {
             if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
             const data = await response.json();
             setCatImage(data[0].url);
-        } catch (err: any) {
-            setError(err.message || "データの取得に失敗しました");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("データの取得に失敗しました");
+            }
         }
     };
 
@@ -34,7 +39,7 @@ function Cat() {
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h2 style={{ fontSize: "16px" }}>ランダムなねこ</h2><br></br>
-            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <img src={catImage} alt="ランダムな猫" width={300} />}<br></br>
+            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <Image src={catImage} alt="ランダムな猫" width={300} height={300} priority />}<br></br>
             <button onClick={fetchCatImage} style={{ margin: "20px", padding: "10px", backgroundColor: "#4191E0", border: "none", borderRadius: "10px", color: "#ffffff", fontWeight: "bold" }}>
                 他のねこを見る
             </button><br></br>

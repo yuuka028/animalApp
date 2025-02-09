@@ -1,7 +1,8 @@
-"use client"; // ✅ クライアントコンポーネント
+"use client";
+import Image from "next/image";
 
 import { useState, useEffect, Suspense } from "react";
-import BackToHomeButton from "../components/backbtn"; // ✅ 共通の戻るボタンを利用
+import BackToHomeButton from "../components/backbtn";
 
 export default function DogPage() {
     return (
@@ -12,7 +13,7 @@ export default function DogPage() {
 }
 
 function Dog() {
-    const [dogImage, setDogImage] = useState("about:blank"); // ✅ 初期値を設定
+    const [dogImage, setDogImage] = useState("about:blank");
     const [error, setError] = useState("");
 
     const fetchDogImage = async () => {
@@ -22,8 +23,12 @@ function Dog() {
             if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
             const data = await response.json();
             setDogImage(data.message);
-        } catch (err: any) {
-            setError(err.message || "データの取得に失敗しました");
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError("データの取得に失敗しました");
+            }
         }
     };
 
@@ -34,7 +39,7 @@ function Dog() {
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h2 style={{ fontSize: "16px" }}>ランダムないぬ</h2><br></br>
-            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <img src={dogImage} alt="ランダムな犬" width={300} style={{ margin: "0 auto" }} />}<br></br>
+            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <Image src={dogImage} alt="ランダムな猫" width={300} height={300} priority />}<br></br>
             <button onClick={fetchDogImage} style={{ margin: "20px", padding: "10px", backgroundColor: "#4191E0", border: "none", borderRadius: "10px", color: "#ffffff", fontWeight: "bold" }}>
                 他のいぬを見る
             </button><br></br>
