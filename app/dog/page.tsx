@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 import { useState, useEffect, Suspense } from "react";
-import BackToHomeButton from "../components/backbtn";
+import Backbtn from "../components/backbtn";
 
 export default function DogPage() {
     return (
@@ -43,7 +43,7 @@ function Dog() {
             <button onClick={fetchDogImage} style={{ margin: "20px", padding: "10px", backgroundColor: "#4191E0", border: "none", borderRadius: "10px", color: "#ffffff", fontWeight: "bold" }}>
                 他のいぬを見る
             </button><br></br>
-            <BackToHomeButton />
+            <Backbtn />
         </div>
     );
 }
