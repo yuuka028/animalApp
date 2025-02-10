@@ -3,19 +3,24 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Backbtn from "../components/backbtn";
 
+const placeholder = "https://via.placeholder.com/300"; // ✅ ダミー画像を設定
+
 export default function CatPage() {
     return <Cat />;
 }
 
 function Cat() {
-    const [catImage, setCatImage] = useState<string | null>(null);
+    const [catImage, setCatImage] = useState<string>(placeholder);
     const [error, setError] = useState("");
 
-    // ✅ `useEffect` の前に関数を定義
+    useEffect(() => {
+        fetchCatImage();
+    }, []);
+
     const fetchCatImage = async () => {
         try {
-            setCatImage(null); // ✅ エラーが起きた場合に備えて、画像をリセット
-            setError(""); // ✅ エラー表示をリセット
+            setCatImage(placeholder); // ✅ 画像をリセットしてプレースホルダーを表示
+            setError("");
             const response = await fetch("https://api.thecatapi.com/v1/images/search");
             if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
             const data: { url: string }[] = await response.json();
@@ -25,19 +30,13 @@ function Cat() {
         }
     };
 
-    useEffect(() => {
-        fetchCatImage();
-    }, []); // ✅ 依存配列を明示的に `[]` に設定
-
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h2 style={{ fontSize: "16px" }}>ランダムなねこ</h2><br></br>
             {error ? (
                 <p style={{ color: "red" }}>⚠️ {error}</p>
-            ) : catImage ? (
-                <Image src={catImage} alt="ランダムな猫" width={300} height={300} priority />
             ) : (
-                <p>画像を読み込んでいます...</p> // ✅ 初期表示時のプレースホルダー
+                <Image src={catImage} alt="ランダムなねこ" width={300} height={300} priority />
             )}
             <br></br>
             <button

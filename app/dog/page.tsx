@@ -3,19 +3,24 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Backbtn from "../components/backbtn";
 
+const placeholder = "https://via.placeholder.com/300"; // ✅ ダミー画像を設定
+
 export default function DogPage() {
     return <Dog />;
 }
 
 function Dog() {
-    const [dogImage, setDogImage] = useState<string | null>(null);
+    const [dogImage, setDogImage] = useState<string>(placeholder);
     const [error, setError] = useState("");
 
-    // ✅ `useEffect` の前に関数を定義
+    useEffect(() => {
+        fetchDogImage();
+    }, []);
+
     const fetchDogImage = async () => {
         try {
-            setDogImage(null); // ✅ エラーが起きた場合に備えて、画像をリセット
-            setError(""); // ✅ エラー表示をリセット
+            setDogImage(placeholder); // ✅ 画像をリセットしてプレースホルダーを表示
+            setError("");
             const response = await fetch("https://dog.ceo/api/breeds/image/random");
             if (!response.ok) throw new Error(`HTTPエラー: ${response.status}`);
             const data: { message: string } = await response.json();
@@ -25,19 +30,13 @@ function Dog() {
         }
     };
 
-    useEffect(() => {
-        fetchDogImage();
-    }, []); // ✅ 依存配列を明示的に `[]` に設定
-
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h2 style={{ fontSize: "16px" }}>ランダムないぬ</h2><br></br>
             {error ? (
                 <p style={{ color: "red" }}>⚠️ {error}</p>
-            ) : dogImage ? (
-                <Image src={dogImage} alt="ランダムないぬ" width={300} height={300} priority />
             ) : (
-                <p>画像を読み込んでいます...</p> // ✅ 初期表示時のプレースホルダー
+                <Image src={dogImage} alt="ランダムないぬ" width={300} height={300} priority />
             )}
             <br></br>
             <button
