@@ -36,7 +36,7 @@ function Cat() {
             {error ? (
                 <p style={{ color: "red" }}>⚠️ {error}</p>
             ) : (
-                <Image src={catImage} alt="ランダムなねこ" width={300} height={300} priority />
+                <Image src={catImage} alt="ランダムなねこ" width={300} priority />
             )}
             <br></br>
             <button

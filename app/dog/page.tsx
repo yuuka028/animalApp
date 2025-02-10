@@ -36,7 +36,7 @@ function Dog() {
             {error ? (
                 <p style={{ color: "red" }}>⚠️ {error}</p>
             ) : (
-                <Image src={dogImage} alt="ランダムないぬ" width={300} height={300} priority />
+                <Image src={dogImage} alt="ランダムないぬ" width={300} priority />
             )}
             <br></br>
             <button
