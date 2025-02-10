@@ -39,7 +39,7 @@ function Dog() {
     return (
         <div style={{ textAlign: "center", marginTop: "50px" }}>
             <h2 style={{ fontSize: "16px" }}>ランダムないぬ</h2><br></br>
-            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <Image src={dogImage} alt="ランダムな猫" width={300} height={300} priority />}<br></br>
+            {error ? <p style={{ color: "red" }}>⚠️ {error}</p> : <Image src={dogImage} alt="ランダムないぬ" width={300} height={300} priority />}<br></br>
             <button onClick={fetchDogImage} style={{ margin: "20px", padding: "10px", backgroundColor: "#4191E0", border: "none", borderRadius: "10px", color: "#ffffff", fontWeight: "bold" }}>
                 他のいぬを見る
             </button><br></br>
