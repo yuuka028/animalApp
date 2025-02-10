@@ -5,3 +5,12 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+/** @type {import('next').NextConfig} */
+const nextConfig2 = {
+  images: {
+    domains: ["images.dog.ceo", "cdn2.thecatapi.com"],
+  },
+};
+
+module.exports = nextConfig2;
